@@ -175,14 +175,14 @@ All four artifacts install on a clean machine and show a window with the version
 
 ```
 internal/apperr/apperr.go      typed error
-internal/apperr/codes.go       the code constants
+internal/apperr/codes.go       the code constants and their user messages
 internal/events/emitter.go     Emitter interface
-internal/events/wails.go       Wails-backed implementation
 internal/events/recorder.go    test double that records emissions
 internal/events/names.go       event name constants and payload structs
 internal/config/paths.go       per OS directory resolution
-internal/config/settings.go    settings read and write
+internal/config/settings.go    settings shape and defaults
 internal/logging/logging.go    slog to file and stderr
+emitter.go                     the Wails implementation of events.Emitter
 ```
 
 ### Tasks
@@ -192,6 +192,8 @@ internal/logging/logging.go    slog to file and stderr
 3. `events.Emitter` is a one-method interface. The Wails implementation wraps `runtime.EventsEmit`. The recorder implementation appends to a slice for tests.
 4. `config.Paths` resolves the data and cache directories per the architecture's [section 10](../architecture/v1.0.0.md#10-file-system-layout) and creates them if missing.
 5. Logging writes to a size-capped file in the data directory, plus stderr during development.
+
+Two things differ from the obvious reading of this list. The Wails implementation of `Emitter` lives in `emitter.go` at the repository root, not in `internal/events`, because a package that every service imports must not itself import the Wails runtime. And `settings.go` defines only the shape and defaults: settings are stored in the database, so reading and writing them arrives with the store in [Part 3](#part-3-store).
 
 ### Done when
 
@@ -686,7 +688,7 @@ Concretely, on a clean machine on each of the four targets:
 ## Progress checklist
 
 - [ ] Binaries sourced, pinned, checksummed, licenses committed
-- [ ] Part 1: Walking skeleton and CI
+- [x] Part 1: Walking skeleton and CI
 - [ ] Part 2: Core plumbing
 - [ ] Part 3: Store
 - [ ] Part 4: Bundled binaries
