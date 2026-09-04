@@ -21,10 +21,10 @@ Each part is sized S, M, or L. Those are relative weights, not time estimates. T
 
 | Tool | Version | Why |
 |---|---|---|
-| Go | 1.23 or later | The core |
-| Node.js | 20 LTS | Frontend build only, not shipped |
+| Go | 1.25 or later | The core, and the floor set in `go.mod` |
+| Node.js | 20 or later | Frontend build only, not shipped |
 | Wails CLI | v2.9 or later | `go install github.com/wailsapp/wails/v2/cmd/wails@latest` |
-| Platform toolchain | per OS | Xcode command line tools on macOS, WebView2 SDK on Windows, `libwebkit2gtk-4.0-dev` and `build-essential` on Linux |
+| Platform toolchain | per OS | Xcode command line tools on macOS, WebView2 SDK on Windows, `libgtk-3-dev`, `libwebkit2gtk-4.1-dev` and `build-essential` on Linux |
 
 Run `wails doctor` on each platform before Part 1. It reports missing native dependencies clearly and saves an hour of confusing build errors.
 
@@ -147,7 +147,7 @@ build/linux/                   AppImage build script and desktop entry
 
 1. `wails init -n leneki -t svelte-ts` in the repository root.
 2. Add one bound method, `Ping() string`, returning the app version. Call it from the Svelte page and render the result. This proves the binding layer works end to end.
-3. Write the CI matrix: `windows-latest`, `macos-14` for ARM64, `macos-13` for x64, `ubuntu-22.04`.
+3. Write the CI matrix: `windows-latest`, `macos-14` for ARM64, `macos-13` for x64, `ubuntu-latest`.
 4. Windows job: `wails build -platform windows/amd64 -nsis`, upload the installer.
 5. macOS jobs: `wails build` for `darwin/arm64` and `darwin/amd64`, wrap each `.app` in a `.dmg`, upload.
 6. Linux job: `wails build -platform linux/amd64`, then package as an AppImage with `linuxdeploy`, upload.
@@ -157,7 +157,7 @@ build/linux/                   AppImage build script and desktop entry
 
 Wails cannot cross compile. Each target must build on its own runner, because Wails binds to the native webview through cgo on macOS and Linux. This corrects the initial plan, and it is why the matrix has four entries rather than one.
 
-Ubuntu 22.04 provides `webkit2gtk-4.0` and 24.04 provides `4.1`. Build with the appropriate Wails build tag and record in the CI file which one you targeted, because this bites later.
+Ubuntu 22.04 provides `webkit2gtk-4.0` and 24.04 provides `4.1`. The project targets 4.1 and builds with the `webkit2_41` tag, because the 22.04 runner image is being retired. Anyone building on 22.04 must drop the tag and install the 4.0 development package instead.
 
 ### Done when
 

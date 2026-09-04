@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Leneki
+Comment=Offline desktop transcription
+Exec=Leneki
+Icon=leneki
+Categories=AudioVideo;Audio;Utility;
+Terminal=false
