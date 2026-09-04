@@ -4,6 +4,7 @@ import (
 	"context"
 	"log/slog"
 
+	"github.com/OshadhaVimuB/Leneki/internal/binaries"
 	"github.com/OshadhaVimuB/Leneki/internal/config"
 	"github.com/OshadhaVimuB/Leneki/internal/events"
 	"github.com/OshadhaVimuB/Leneki/internal/store"
@@ -12,13 +13,14 @@ import (
 type App struct {
 	ctx      context.Context
 	paths    config.Paths
+	bins     binaries.Paths
 	store    *store.Store
 	settings config.Settings
 	emitter  events.Emitter
 }
 
-func NewApp(paths config.Paths, db *store.Store, settings config.Settings) *App {
-	return &App{paths: paths, store: db, settings: settings}
+func NewApp(paths config.Paths, bins binaries.Paths, db *store.Store, settings config.Settings) *App {
+	return &App{paths: paths, bins: bins, store: db, settings: settings}
 }
 
 func (a *App) startup(ctx context.Context) {

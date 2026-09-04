@@ -11,6 +11,7 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
 
+	"github.com/OshadhaVimuB/Leneki/internal/binaries"
 	"github.com/OshadhaVimuB/Leneki/internal/config"
 	"github.com/OshadhaVimuB/Leneki/internal/logging"
 	"github.com/OshadhaVimuB/Leneki/internal/store"
@@ -45,6 +46,12 @@ func run() error {
 	slog.Info("starting", "version", Version)
 	slog.Info("paths resolved", "data", paths.Data, "cache", paths.Cache)
 
+	bins, err := binaries.Ensure(paths.Bin)
+	if err != nil {
+		return fmt.Errorf("preparing the bundled tools: %w", err)
+	}
+	slog.Info("bundled tools ready", "dir", paths.Bin)
+
 	db, err := store.Open(paths.DB)
 	if err != nil {
 		return fmt.Errorf("opening the database: %w", err)
@@ -57,7 +64,7 @@ func run() error {
 	}
 	slog.Info("database ready", "path", paths.DB, "threads", settings.Threads)
 
-	app := NewApp(paths, db, settings)
+	app := NewApp(paths, bins, db, settings)
 	if err := wails.Run(&options.App{
 		Title:  "Leneki",
 		Width:  1024,

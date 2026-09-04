@@ -243,12 +243,11 @@ Migrations apply cleanly to an empty file, every repository has a round-trip tes
 ### Files
 
 ```
-internal/binaries/binaries.go          Ensure, verify, extract
-internal/binaries/embed_windows.go     build-tagged embeds
-internal/binaries/embed_darwin.go
-internal/binaries/embed_linux.go
-internal/binaries/checksums.go         pinned SHA256 per file
-assets/binaries/<platform>/            the executables themselves
+internal/binaries/binaries.go          Ensure, verify, extract, self heal
+internal/binaries/payload_<os>_<arch>.go   build-tagged embeds
+internal/binaries/payload/<platform>/  fetched, gitignored, embedded
+internal/binaries/sources.json         pinned URLs and archive checksums
+tools/fetchbinaries/                   downloads, verifies, extracts
 assets/licenses/                       whisper.cpp and FFmpeg license texts
 ```
 
@@ -259,9 +258,22 @@ assets/licenses/                       whisper.cpp and FFmpeg license texts
 3. Verify on every launch, not only on extraction. A partial or corrupted extract should re-extract itself rather than failing later with a confusing error from a child process.
 4. Commit the licenses now, while the versions are fresh in mind.
 
+### What sourcing actually turned up
+
+The plan assumed pinned prebuilt binaries existed for all four platforms. They do not, and the difference matters enough to record.
+
+- **whisper.cpp** publishes binaries for Windows x64 and Linux x64 only. macOS gets an `xcframework`, which is a library for embedding rather than a command line tool. The newest release, v1.9.3, ships no assets at all, so the pin is v1.9.2.
+- **FFmpeg** static builds from BtbN cover Windows and Linux. There are no macOS builds.
+- Neither tool is a single file. `whisper-cli` loads `whisper.dll` plus a set of `ggml-cpu-*` libraries chosen at runtime by CPU capability, so each platform needs a file set rather than three executables.
+- The LGPL shared FFmpeg build is used rather than the static one. Static links every codec into both `ffmpeg` and `ffprobe`, which cost 114MB each. Sharing the libraries between them brings the payload from 228MB to 138MB.
+
+So macOS needs whisper and FFmpeg built from source on the macOS runners. That is tracked as remaining work on this part, and until it lands the macOS builds carry no bundled tools.
+
+Binaries are fetched rather than committed. The repository would otherwise be several hundred megabytes, and individual FFmpeg libraries exceed GitHub's file size limits.
+
 ### Done when
 
-On a machine with an empty cache directory, first launch extracts all three files and `ffmpeg -version` runs successfully from the returned path. Deliberately truncating an extracted file causes a clean re-extraction on the next launch.
+On a machine with an empty cache directory, first launch extracts the payload and `ffmpeg -version` runs successfully from the returned path. Deliberately truncating an extracted file causes a clean re-extraction on the next launch. Done for Windows and Linux; macOS is outstanding.
 
 ---
 

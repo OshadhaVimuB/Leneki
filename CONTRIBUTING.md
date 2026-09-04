@@ -49,10 +49,17 @@ Run `wails doctor` first. It reports missing native dependencies clearly and wil
 ### Running it
 
 ```
-wails dev      # development build with hot reload
-wails build    # production build for your platform
-go test ./...  # the Go test suite
+go run ./tools/fetchbinaries   # once, downloads the bundled ffmpeg and whisper
+wails dev                      # development build with hot reload
+wails build                    # production build for your platform
+go test ./...                  # the Go test suite
 ```
+
+The fetch step downloads around 140MB of pinned third party binaries into
+`internal/binaries/payload/`, verifies them by SHA256, and is required before
+the application will start. They are deliberately not in git: the repository
+would be several hundred megabytes and individual files would exceed GitHub's
+limits. The tests that need them skip themselves when they are absent.
 
 Wails cannot cross compile, because it binds to each platform's native webview. You can only build for the machine you are on.
 

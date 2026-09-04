@@ -1,0 +1,45 @@
+{
+  "windows-amd64": [
+    {
+      "name": "whisper.cpp v1.9.2",
+      "url": "https://github.com/ggml-org/whisper.cpp/releases/download/v1.9.2/whisper-bin-x64.zip",
+      "sha256": "49dcc16de826f20bd53d44f947a1ae49dfa81f86cad67a64d80820cb192d674a",
+      "extract": [
+        "Release/whisper-cli.exe",
+        "Release/whisper.dll",
+        "Release/ggml*.dll"
+      ]
+    },
+    {
+      "name": "FFmpeg n9.0.1 LGPL shared",
+      "url": "https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2026-09-03-13-17/ffmpeg-n9.0.1-11-ge47273f4d9-win64-lgpl-shared-9.0.zip",
+      "sha256": "ad26fca80435853043bd75a989be38261fa28b54bb623459b88786177b22fa86",
+      "extract": [
+        "*/bin/ffmpeg.exe",
+        "*/bin/ffprobe.exe",
+        "*/bin/*.dll"
+      ]
+    }
+  ],
+  "linux-amd64": [
+    {
+      "name": "whisper.cpp v1.9.2",
+      "url": "https://github.com/ggml-org/whisper.cpp/releases/download/v1.9.2/whisper-bin-ubuntu-x64.tar.gz",
+      "sha256": "46811a3ecf584307480a220b9ef5ff81b7b22dc41577cbc274ce3afc61f753b1",
+      "extract": [
+        "*/whisper-cli",
+        "*/lib*.so*"
+      ]
+    },
+    {
+      "name": "FFmpeg n9.0.1 LGPL shared",
+      "url": "https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2026-09-03-13-17/ffmpeg-n9.0.1-11-ge47273f4d9-linux64-lgpl-shared-9.0.tar.xz",
+      "sha256": "8b5ee1e4cfe445002e2d8446a8f52e4cd413e44385cc8374bc24f7c8a2dcc440",
+      "extract": [
+        "*/bin/ffmpeg",
+        "*/bin/ffprobe",
+        "*/lib/lib*.so*"
+      ]
+    }
+  ]
+}

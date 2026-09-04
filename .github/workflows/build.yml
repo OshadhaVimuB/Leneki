@@ -52,6 +52,7 @@ jobs:
           - name: windows-amd64
             os: windows-latest
             platform: windows/amd64
+            payload: windows-amd64
           - name: darwin-arm64
             os: macos-15
             platform: darwin/arm64
@@ -61,6 +62,7 @@ jobs:
           - name: linux-amd64
             os: ubuntu-latest
             platform: linux/amd64
+            payload: linux-amd64
     steps:
       - uses: actions/checkout@v4
 
@@ -84,6 +86,12 @@ jobs:
 
       - name: Install Wails CLI
         run: go install github.com/wailsapp/wails/v2/cmd/wails@v2.15.0
+
+      # macOS has no prebuilt whisper or ffmpeg, so it has no payload yet and
+      # its builds ship without the bundled tools until source builds land.
+      - name: Fetch bundled binaries
+        if: matrix.payload != ''
+        run: go run ./tools/fetchbinaries -target ${{ matrix.payload }}
 
       - name: Resolve version
         id: version
