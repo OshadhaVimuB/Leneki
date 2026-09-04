@@ -147,7 +147,7 @@ build/linux/                   AppImage build script and desktop entry
 
 1. `wails init -n leneki -t svelte-ts` in the repository root.
 2. Add one bound method, `Ping() string`, returning the app version. Call it from the Svelte page and render the result. This proves the binding layer works end to end.
-3. Write the CI matrix: `windows-latest`, `macos-14` for ARM64, `macos-13` for x64, `ubuntu-latest`.
+3. Write the CI matrix: `windows-latest`, `macos-15` for ARM64, `macos-15-intel` for x64, `ubuntu-latest`. Intel macOS labels change often, so check the current one in `actions/runner-images` rather than copying an older project. A retired label does not fail, it queues forever.
 4. Windows job: `wails build -platform windows/amd64 -nsis`, upload the installer.
 5. macOS jobs: `wails build` for `darwin/arm64` and `darwin/amd64`, wrap each `.app` in a `.dmg`, upload.
 6. Linux job: `wails build -platform linux/amd64`, then package as an AppImage with `linuxdeploy`, upload.
