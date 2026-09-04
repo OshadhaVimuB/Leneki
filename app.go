@@ -6,16 +6,19 @@ import (
 
 	"github.com/OshadhaVimuB/Leneki/internal/config"
 	"github.com/OshadhaVimuB/Leneki/internal/events"
+	"github.com/OshadhaVimuB/Leneki/internal/store"
 )
 
 type App struct {
-	ctx     context.Context
-	paths   config.Paths
-	emitter events.Emitter
+	ctx      context.Context
+	paths    config.Paths
+	store    *store.Store
+	settings config.Settings
+	emitter  events.Emitter
 }
 
-func NewApp(paths config.Paths) *App {
-	return &App{paths: paths}
+func NewApp(paths config.Paths, db *store.Store, settings config.Settings) *App {
+	return &App{paths: paths, store: db, settings: settings}
 }
 
 func (a *App) startup(ctx context.Context) {

@@ -210,14 +210,14 @@ Two things differ from the obvious reading of this list. The Wails implementatio
 ### Files
 
 ```
-internal/store/store.go
-internal/store/migrations/0001_init.sql
-internal/store/migrations/embed.go
+internal/store/store.go            open, migrate, hand out repositories
+internal/store/migrations/*.sql    numbered, embedded from store.go
 internal/store/jobs_repo.go
 internal/store/segments_repo.go
 internal/store/models_repo.go
 internal/store/settings_repo.go
-internal/store/store_test.go
+internal/store/store_test.go       open and migration behaviour
+internal/store/repos_test.go       round trips
 ```
 
 ### Tasks
@@ -689,7 +689,7 @@ Concretely, on a clean machine on each of the four targets:
 
 - [ ] Binaries sourced, pinned, checksummed, licenses committed
 - [x] Part 1: Walking skeleton and CI
-- [ ] Part 2: Core plumbing
+- [x] Part 2: Core plumbing
 - [ ] Part 3: Store
 - [ ] Part 4: Bundled binaries
 - [ ] Part 5: Media intake
