@@ -2,7 +2,7 @@
 
 **Offline desktop transcription.** Drop in a recording, get an accurate editable transcript, export SRT. Powered by [whisper.cpp](https://github.com/ggerganov/whisper.cpp), nothing leaves your machine.
 
-> **Status: early development.** There is no installable release yet and no application code in this repository. What exists today is the design: the [scope](documents/initial-plan.md), the [architecture](documents/architecture/v1.0.0.md), and a [build plan](documents/development-plan/phase-1.md) broken into 19 parts. If you want to help shape it before the first line of Go is written, now is the good moment. See [CONTRIBUTING.md](CONTRIBUTING.md).
+> **Status: early development.** There is no installable release yet. What exists today is the design plus a walking skeleton: an application that builds on all four platforms, opens a window, and does nothing else. The features below are not built. See the [scope](documents/initial-plan.md), the [architecture](documents/architecture/v1.0.0.md), and the [build plan](documents/development-plan/phase-1.md) broken into 19 parts, then [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 

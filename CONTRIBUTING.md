@@ -1,6 +1,6 @@
 # Contributing to Leneki
 
-Thanks for looking. Leneki is an offline desktop transcription application, and it is at the earliest possible stage: the design is written, the code is not. That makes this a good moment to contribute, because the decisions are still cheap to change.
+Thanks for looking. Leneki is an offline desktop transcription application at an early stage: the design is written and the application skeleton builds on all four platforms, but none of the transcription features exist yet. That makes this a good moment to contribute, because the decisions are still cheap to change.
 
 This document covers how the work is organized, how to get set up, and the conventions the project follows. Read the [architecture document](documents/architecture/v1.0.0.md) before writing code, since it answers most "why is it done this way" questions.
 
@@ -8,11 +8,11 @@ This document covers how the work is organized, how to get set up, and the conve
 
 ## The best way to help right now
 
-There is no application code yet, so the useful contributions today are not pull requests full of features.
+Only the skeleton exists, so the useful contributions today are not pull requests full of features.
 
 1. **Review the design.** The [architecture](documents/architecture/v1.0.0.md) commits to specific choices, and several are worth arguing about before they become load bearing. Open an issue if you disagree with one.
 2. **Claim a part.** The [Phase 1 build plan](documents/development-plan/phase-1.md) splits the work into 19 parts in dependency order. Each part states its goal, what it depends on, the files it creates, and a checkable definition of done. Comment on the tracking issue for a part to claim it.
-3. **Test on your platform.** Once builds exist, the four targets need real users on real machines. Linux under WebKitGTK especially, since it is the least forgiving of the three webview engines.
+3. **Test on your platform.** CI publishes an artifact per target on every push, and they need real users on real machines. Linux under WebKitGTK especially, since it is the least forgiving of the three webview engines.
 
 If you are new to the project, the parts marked **S** in the build plan are the smallest self-contained pieces of work.
 
@@ -38,11 +38,11 @@ The `internal/` tree does not exist yet. It is created part by part, following t
 
 | Tool | Version |
 |---|---|
-| Go | 1.23 or later |
-| Node.js | 20 LTS |
+| Go | 1.25 or later |
+| Node.js | 20 or later |
 | Wails CLI | v2.9 or later, `go install github.com/wailsapp/wails/v2/cmd/wails@latest` |
 
-Plus your platform's native toolchain: Xcode command line tools on macOS, the WebView2 SDK on Windows, `libwebkit2gtk-4.0-dev` and `build-essential` on Linux.
+Plus your platform's native toolchain: Xcode command line tools on macOS, the WebView2 SDK on Windows, `libgtk-3-dev`, `libwebkit2gtk-4.1-dev` and `build-essential` on Linux.
 
 Run `wails doctor` first. It reports missing native dependencies clearly and will save you an hour of confusing build errors.
 
