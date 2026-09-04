@@ -25,6 +25,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev
+      # wails build empties frontend/dist, so the go:embed target may be missing.
+      - name: Ensure the embed target exists
+        run: mkdir -p frontend/dist && touch frontend/dist/gitkeep
+
       - name: gofmt
         run: |
           unformatted=$(gofmt -l .)
@@ -49,10 +53,10 @@ jobs:
             os: windows-latest
             platform: windows/amd64
           - name: darwin-arm64
-            os: macos-14
+            os: macos-15
             platform: darwin/arm64
           - name: darwin-amd64
-            os: macos-13
+            os: macos-15-intel
             platform: darwin/amd64
           - name: linux-amd64
             os: ubuntu-latest

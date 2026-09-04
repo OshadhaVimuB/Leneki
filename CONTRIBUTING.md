@@ -56,6 +56,8 @@ go test ./...  # the Go test suite
 
 Wails cannot cross compile, because it binds to each platform's native webview. You can only build for the machine you are on.
 
+One wrinkle: `wails build` empties `frontend/dist`, including the tracked `gitkeep` placeholder that lets `go build` and `go test` work in a fresh clone. If git reports that file as deleted after a build, restore it with `git checkout frontend/dist/gitkeep`.
+
 ---
 
 ## How the work is organized
